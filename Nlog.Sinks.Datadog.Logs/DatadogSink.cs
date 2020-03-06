@@ -91,7 +91,7 @@ namespace Nlog.Sinks.Datadog.Logs
 
         public DatadogSink()
         {
-            _batchTimer = new Timer(SendBatch, null, Period.Milliseconds, Period.Milliseconds);
+            _batchTimer = new Timer(SendBatch, null, (int)Period.TotalMilliseconds, (int)Period.TotalMilliseconds);
             _events = new List<LogEventInfo>();
         }
 
@@ -123,7 +123,7 @@ namespace Nlog.Sinks.Datadog.Logs
                 }
                 else
                 {
-                    _client = new DatadogHttpClient(configuration, new LogFormatter(Source, Service, Host, Tags.Split(',')), ApiKey);
+                    _client = new DatadogHttpClient(configuration, new LogFormatter(Source, Service, Host, Tags != null ? Tags.Split(',') : null), ApiKey);
                 }
             }
         }
